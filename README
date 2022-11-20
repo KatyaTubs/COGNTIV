@@ -1,0 +1,22 @@
+Thank you for this opportunity, it's been fun :)
+
+To run the program, extract the files into a directory and from this directory run "python main.py <args>".
+The program requires the scipy library.
+The argument options are:
+    - -seconds_to_run: The number of seconds to run the program. Defaults to 300.
+    - -lossy_mode: If set to True, enables the lossy mode described in the exercise.
+    - -recovery_mode: If set to True, enables the lossy mode described below.
+    - -results_file: The name of the file to output the results to. Will erase the file if already exists.
+                     Defaults to "results.txt".
+
+Recovery Mode:
+    You will notice that although most of the time the rate is very close to 1000 Hz, every several seconds it
+    suffers a significant drop (usually to 64). -recovery_mode is an option to forcibly send all 1000 packets at once
+    if the server detects unusually low sending rate. This mode hurts temporality, as it sends almost all the 1000
+    packets at once and then waits for a new time period (a new second) to begin.
+    This mode is enabled in the following manner:
+    The time is divided into slots, each one second long. If for the first 0.3 of a slot, the server detects that it
+    sent less than 150 packets, it will enable the recovery mode, and send all the remaining packets in the time slot
+    at once. Then it will sleep for (0.7 - time it took it to send all the remaining packets).
+    Since the sending rate is not equally distributed, it may cause the client to observe a rate of X (some small rate)
+    at one second and then 2000 - X the next.
